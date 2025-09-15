@@ -1,0 +1,39 @@
+Construye la imagen personalizada a partir del Dockerfile:
+docker build -t mi_imagen_python .
+
+Inicia un contenedor nuevo utilizando la imagen personalizada y mapea los puertos y carpetas como desees:
+
+docker run -it -p 8080:80 -p 443:443 ubuntu
+
+-i, --interactive		Keep STDIN open even if not attached
+-t, --tty		Allocate a pseudo-TTY
+-v	Bind mount a volume. Por ejemplo "-v /c/pruebas/python/blablacash:/app" monta la ruta local "/c/pruebas/python/blablacash" en la ruta del contenedor "/app"
+-p	Publish a container's port(s) to the host
+
+Por ejemplo:
+	docker run -it -p 8080:80 -v /c/pruebas/python/blablacash:/app b147697fa4af
+arranca el contenedor con el propmpt interactivo de la imagen de ubuntu.
+
+Instalar Python (Python3) incrementa unos 50 megas el contenedor.
+¡¡¡Instalar pip (apt-get install pip) incrementa unos 389 MB megas el contenedor!!!
+
+Para entrar en la shell de un contenedor que ya se está ejecutando
+	docker exec -it b147697fa4af bash
+
+Para iniciar un contenedor (o reiniciarlo):
+docker restart b147697fa4af
+
+Recuerda que lo has iniciado exponiendo el puerto 80 en el 8080. Así que para visitar Apache debes poner:
+http://127.0.0.1:8080/
+
+Para cambiar los puertos expuestos de un contenedor hay que editar el fichero hostconfig.json. Y creo que también hay que cambiar el config.v2.json para incluir el nuevo puerto a exponer.
+	Parar el contenedor.
+	Modificar los ficheros.
+	Parar Docker Desktop.
+	Arrancar Docker Desktop.
+	Arrancar el contenedor.
+	
+En Windows está en 
+\\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\containers\ID_del_contenedor
+En linux está 
+/var/lib/docker/containers/ID_del_contenedor
